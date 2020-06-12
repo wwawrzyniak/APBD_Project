@@ -1,0 +1,43 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UserSecretsId>b03975ce-cff5-4e77-9fa1-a5edff7ba307</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Migrations\20200607174536_tablesCreation.cs" />
+    <Compile Remove="Migrations\20200607174536_tablesCreation.Designer.cs" />
+    <Compile Remove="Migrations\20200610073017_passwordCustomer.cs" />
+    <Compile Remove="Migrations\20200610073017_passwordCustomer.Designer.cs" />
+    <Compile Remove="Migrations\20200610073256_passwordCustomer.cs" />
+    <Compile Remove="Migrations\20200610073256_passwordCustomer.Designer.cs" />
+    <Compile Remove="Migrations\20200610073611_initialMigrationAndPasswordInCustomer.cs" />
+    <Compile Remove="Migrations\20200610073611_initialMigrationAndPasswordInCustomer.Designer.cs" />
+    <Compile Remove="Migrations\20200610074451_initialMigrationAndPasswordInCustomer.cs" />
+    <Compile Remove="Migrations\20200610074451_initialMigrationAndPasswordInCustomer.Designer.cs" />
+    <Compile Remove="Migrations\20200610074651_initialMigrationAndPasswordInCustomer.cs" />
+    <Compile Remove="Migrations\20200610074651_initialMigrationAndPasswordInCustomer.Designer.cs" />
+    <Compile Remove="Migrations\20200610095630_jsonIgnoreVirtualAttributes.cs" />
+    <Compile Remove="Migrations\20200610095630_jsonIgnoreVirtualAttributes.Designer.cs" />
+    <Compile Remove="Migrations\20200610190728_seedDb.cs" />
+    <Compile Remove="Migrations\20200610190728_seedDb.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.4">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Moq" Version="4.14.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.4.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="5.4.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUi" Version="5.4.1" />
+  </ItemGroup>
+
+
+</Project>
