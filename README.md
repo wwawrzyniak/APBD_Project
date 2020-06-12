@@ -1,9 +1,10 @@
 # APBD_Project
 
 ## What is not implemented
-• Prepare a separate project with unit and integration tests for prepared endpoints.
-• I again extented ControllerBase in service implementation since I wanted methods to return IActionResults
+- Prepare a separate project with unit and integration tests for prepared endpoints.
+- I again extented ControllerBase in service implementation since I wanted methods to return IActionResults
 (what's the other way to achieve that?)
+ 
 
 ## Database aplications (APBD)
 Piotr Gago (pgago@pja.edu.pl)
