@@ -1,5 +1,8 @@
 # APBD_Project
 
+## What is not implemented
+• Prepare a separate project with unit and integration tests for prepared endpoints.
+
 ## Database aplications (APBD)
 Piotr Gago (pgago@pja.edu.pl)
 June 6, 2020
