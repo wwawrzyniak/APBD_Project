@@ -22,6 +22,8 @@ namespace AdvertApi.Entities
 
         public string Password { get; set; }
 
+        public string Salt { get; set; }
+
         public string RefreshToken { get; set; }
         [JsonIgnore]
         public virtual ICollection<Campaign> Campaigns { get; set; }

@@ -18,8 +18,8 @@ namespace AdvertApi.Entities
 
         //[Column(TypeName = "decimal(6,2)")]
         public decimal Height { get; set; }
-        [JsonIgnore]
-        public virtual ICollection<Campaign> Campaigns { get; set; }
+      //  [JsonIgnore]
+      //  public virtual ICollection<Campaign> Campaigns { get; set; }
         [JsonIgnore]
         public virtual ICollection<Campaign> FromIdBuildingCampaigns { get; set; }
         [JsonIgnore]

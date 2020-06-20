@@ -14,7 +14,7 @@ namespace AdvertApi.Controllers
     public class CampaignController : ControllerBase
     {
 
-        private ICampaignDbService _service;
+        private readonly ICampaignDbService _service;
 
         private readonly AdvertisingDbContext _context;
 
@@ -29,10 +29,10 @@ namespace AdvertApi.Controllers
         [HttpGet]
         public IActionResult ListAllCampaigns()
         {
-           return Ok(_service.ListCampaigns(_context));
+            return Ok(_service.ListCampaigns());
         }
 
-        [Authorize(Roles = "registered")]
+        [Authorize(Roles = "registered, loggedUser")]
         [HttpPost("registerCampaign")]
         public IActionResult RegisterCampaign([FromBody] RegisterCampaignRequest registerCampaignRequest)
         {
@@ -52,7 +52,7 @@ namespace AdvertApi.Controllers
 
             if(!street1.Equals(street1)) return StatusCode(400);
 
-            return _service.RegisterCampaign(_context, registerCampaignRequest);
+            return _service.RegisterCampaign(registerCampaignRequest);
         }
 
     }

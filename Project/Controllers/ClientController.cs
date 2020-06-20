@@ -12,7 +12,7 @@ namespace AdvertApi.Controllers
     public class ClientController : ControllerBase
     {
 
-        private IClientDbService _service;
+        private readonly IClientDbService _service;
 
         public ClientController(IClientDbService service)
         {
@@ -22,7 +22,7 @@ namespace AdvertApi.Controllers
         [HttpGet]
         public IActionResult getAll()
         {
-
+            
             return Ok(_service.returnAll());
 
         }
@@ -32,6 +32,7 @@ namespace AdvertApi.Controllers
             return _service.RegisterNewUser(request);
 
         }
+
 
         [HttpPost ("refreshToken/{tokenRequest}")]
         public IActionResult RefreshToken (string tokenRequest )

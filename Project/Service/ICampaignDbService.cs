@@ -11,9 +11,9 @@ namespace AdvertApi.Service
 {
     public interface ICampaignDbService
     {
-        IActionResult ListCampaigns(AdvertisingDbContext context);
+        IActionResult ListCampaigns();
 
 
-        IActionResult RegisterCampaign(AdvertisingDbContext context, RegisterCampaignRequest registerCampaignRequest);
+        IActionResult RegisterCampaign(RegisterCampaignRequest registerCampaignRequest);
     }
 }

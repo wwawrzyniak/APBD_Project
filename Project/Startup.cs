@@ -58,10 +58,6 @@ namespace AdvertApi
             services.AddControllers()
                .AddXmlSerializerFormatters ();
 
-            services.AddControllersWithViews ()
-            .AddNewtonsoftJson (options =>
-             options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-);
             services.AddDbContext<AdvertisingDbContext> (options =>
             {
                 options.UseSqlServer (Configuration["ConnectionStrings:DefaultConnection"]);

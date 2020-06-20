@@ -19,5 +19,7 @@ namespace AdvertApi.Service
 
         List<Client> returnAll();
 
+        void deleteAll();
+
     }
 }

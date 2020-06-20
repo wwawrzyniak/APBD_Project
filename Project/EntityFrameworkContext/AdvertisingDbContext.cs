@@ -29,8 +29,10 @@ namespace AdvertApi.Entities
                 entity.HasKey(e => e.IdBuilding);
                 entity.Property(e => e.IdBuilding).ValueGeneratedOnAdd();
                 entity.Property(e => e.Street).IsRequired();
+                entity.Property(e => e.Street).HasMaxLength(100);
+                entity.Property(e => e.City).HasMaxLength(100);
                 entity.Property(e => e.Height).HasColumnType("decimal(6,2)");
-                entity.Ignore(c => c.Campaigns);
+               // entity.Ignore(c => c.Campaigns);
 
                 entity.ToTable("Building");
 
@@ -74,6 +76,11 @@ namespace AdvertApi.Entities
                 entity.HasKey(e => e.IdClient);
                 entity.Property(e => e.IdClient).ValueGeneratedOnAdd();
                 entity.Property(e => e.Login).IsRequired();
+                entity.Property(e => e.FirstName).HasMaxLength(100);
+                entity.Property(e => e.LastName).HasMaxLength(100);
+                entity.Property(e => e.Email).HasMaxLength(100);
+                entity.Property(e => e.Phone).HasMaxLength(100);
+                entity.Property(e => e.Login).HasMaxLength(100);
                 entity.ToTable("Client");
 
                 entity.HasMany(e => e.Campaigns)

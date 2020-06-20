@@ -4,14 +4,16 @@ using AdvertApi.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AdvertApi.Migrations
 {
     [DbContext(typeof(AdvertisingDbContext))]
-    partial class CampaignDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200620173926_afterFeedbackMaxLenghtsAdded")]
+    partial class afterFeedbackMaxLenghtsAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -198,9 +200,6 @@ namespace AdvertApi.Migrations
                         .HasMaxLength(100);
 
                     b.Property<string>("RefreshToken")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Salt")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("IdClient");
