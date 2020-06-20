@@ -154,28 +154,47 @@ namespace AdvertApi.Service
         
         }
 
-        public IActionResult RefreshToken(string tokenToRefresh)
+        private ClaimsPrincipal GetPrincipalFromExpiredToken(string token)
         {
-
-            var client = _context.Clients
-                     .Where(c => c.RefreshToken == tokenToRefresh)
-                     .ToList();
-
-
-            if(client.Count == 0 || client.Count > 1)
+            var tokenValidationParameters = new TokenValidationParameters
             {
-                return NotFound("Client with this refresh token doesnt exist or more than one client has this refresh token");
-            }
+                ValidateAudience = false,
+                ValidateIssuer = false,
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["SecretKey"])),
+                ValidateLifetime = false,
+                ValidIssuer= "Nisia",
+                ValidAudience ="Users"
+            };
 
-            Client client2 = client.First();
+            var tokenHandler = new JwtSecurityTokenHandler();
+            SecurityToken securityToken;
+            var principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out securityToken);
+            var jwtSecurityToken = securityToken as JwtSecurityToken;
+            if(jwtSecurityToken == null || !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
+                throw new SecurityTokenException("Invalid token");
 
-            TokenCreationResponse tokenCreationResponse = createTokens(client2, "loggedUser");
+            return principal;
+        }
+
+
+        public IActionResult RefreshToken(RefreshTokenRequest refreshTokenRequest)
+        {
+            var principal = GetPrincipalFromExpiredToken(refreshTokenRequest.AccessToken);
+            var username = principal.Identity.Name;
+            var savedRefreshToken = _context.Clients.Where(c => c.Login == username).Select(c => c.RefreshToken).ToList().First(); 
+            if(!savedRefreshToken.Equals(refreshTokenRequest.RefreshToken))
+                throw new SecurityTokenException("Invalid refresh token");
+
+            Client user = _context.Clients.Where(c => c.Login == username).ToList().First();
+
+            TokenCreationResponse tokenCreationResponse = createTokens(user, "loggedUser");
 
             var token = tokenCreationResponse.Token;
 
             var refreshToken = tokenCreationResponse.RefreshToken;
 
-            _context.Update(client2);
+            _context.Update(user);
             _context.SaveChanges();
 
             return Ok

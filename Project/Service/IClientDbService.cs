@@ -13,7 +13,7 @@ namespace AdvertApi.Service
     {
         IActionResult RegisterNewUser(RegisterRequest registerRequest);
 
-        IActionResult RefreshToken (string token);
+        IActionResult RefreshToken (RefreshTokenRequest refreshTokenRequest);
 
         IActionResult LoginUser (LoginUserRequest loginRequest);
 

@@ -37,14 +37,25 @@ namespace AdvertApi
                     {
                         options.TokenValidationParameters = new TokenValidationParameters
                         {
-                            ValidateIssuer = true,
-                            ValidateAudience = true,
+                            ValidateIssuer = false,
+                            ValidateAudience = false,
                             ValidateLifetime = true,
                             ValidIssuer = "Nisia",
                             ValidAudience = "Users",
                             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["SecretKey"]))
                         };
-                    });
+                        options.Events = new JwtBearerEvents
+                        {
+                            OnAuthenticationFailed = context =>
+                            {
+                                if(context.Exception.GetType() == typeof(SecurityTokenExpiredException))
+                                {
+                                    context.Response.Headers.Add("Token-Expired", "true");
+                                }
+                                return Task.CompletedTask;
+                            }
+                        };
+        });
 
             services.AddTransient<IClientDbService, ClientDbService> ();
 
@@ -53,7 +64,6 @@ namespace AdvertApi
             services.AddControllers();
             services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "Advertising API", Version = "v1" }); });
 
-            
 
             services.AddControllers()
                .AddXmlSerializerFormatters ();
@@ -62,9 +72,6 @@ namespace AdvertApi
             {
                 options.UseSqlServer (Configuration["ConnectionStrings:DefaultConnection"]);
             });
-            
-         
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -74,7 +81,6 @@ namespace AdvertApi
             {
                 app.UseDeveloperExceptionPage();
             }
-
 
             app.UseSwagger();
 

@@ -115,7 +115,6 @@ namespace AdvertApi.Service
 
                 _context.Campaigns.Add(newCampaign);
 
-                _context.SaveChanges();
 
                 Banner b1 = new Banner
                 {

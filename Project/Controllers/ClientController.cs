@@ -33,13 +33,14 @@ namespace AdvertApi.Controllers
 
         }
 
-
-        [HttpPost ("refreshToken/{tokenRequest}")]
-        public IActionResult RefreshToken (string tokenRequest )
+        [AllowAnonymous]
+        [HttpPost ("refreshToken")]
+        public IActionResult RefreshToken ([FromBody] RefreshTokenRequest refreshTokenRequest)
         {
 
-            return _service.RefreshToken (tokenRequest);
+            return _service.RefreshToken (refreshTokenRequest);
         }
+
 
         [AllowAnonymous]
         [HttpPost("login")]
