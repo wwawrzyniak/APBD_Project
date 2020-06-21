@@ -21,10 +21,10 @@ namespace AdvertApi.Service
 
         private readonly AdvertisingDbContext _context;
 
-        private IConfiguration configuration { get; set; }
+        private IConfiguration _configuration { get; set; }
         public ClientDbService(IConfiguration configuration, AdvertisingDbContext context)
         {
-            this.configuration = configuration;
+            this._configuration = configuration;
             _context = context;
         }
         public List<Client> returnAll() { return _context.Clients.ToList(); }
@@ -85,7 +85,7 @@ namespace AdvertApi.Service
                     new Claim(ClaimTypes.Role, clientsRole),
                 };
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["SecretKey"]));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["SecretKey"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var token = new JwtSecurityToken
@@ -161,7 +161,7 @@ namespace AdvertApi.Service
                 ValidateAudience = false,
                 ValidateIssuer = false,
                 ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["SecretKey"])),
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["SecretKey"])),
                 ValidateLifetime = false,
                 ValidIssuer= "Nisia",
                 ValidAudience ="Users"
@@ -192,7 +192,7 @@ namespace AdvertApi.Service
 
             var token = tokenCreationResponse.Token;
 
-            var refreshToken = tokenCreationResponse.RefreshToken;
+            var RefreshToken = tokenCreationResponse.RefreshToken;
 
             _context.Update(user);
             _context.SaveChanges();
@@ -201,8 +201,8 @@ namespace AdvertApi.Service
             (
                 new
                 {
-                    token = new JwtSecurityTokenHandler().WriteToken(token),
-                    refreshToken
+                    AccessToken = new JwtSecurityTokenHandler().WriteToken(token),
+                    RefreshToken
                 }
             );
         }
