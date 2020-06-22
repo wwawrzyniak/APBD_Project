@@ -16,12 +16,10 @@ namespace AdvertApi.Controllers
 
         private readonly ICampaignDbService _service;
 
-        private readonly AdvertisingDbContext _context;
 
-        public CampaignController(ICampaignDbService service, AdvertisingDbContext context)
+        public CampaignController(ICampaignDbService service)
         {
             _service = service;
-            _context = context;
         }
 
 
@@ -29,29 +27,15 @@ namespace AdvertApi.Controllers
         [HttpGet]
         public IActionResult ListAllCampaigns()
         {
-            return Ok(_service.ListCampaigns());
+            var result = _service.ListCampaigns();
+            if(result == null) return BadRequest("An error occured");
+            return Ok(result);
         }
 
         [Authorize(Roles = "registered, loggedUser")]
         [HttpPost("registerCampaign")]
         public IActionResult RegisterCampaign([FromBody] RegisterCampaignRequest registerCampaignRequest)
         {
-            var exists = _context.Clients.Where(c => c.IdClient == registerCampaignRequest.IdClient).ToList();
-            if(exists.Count == 0) return StatusCode(401);
-
-
-            //check if all data has been delivered
-            if(string.IsNullOrWhiteSpace(registerCampaignRequest.IdClient.ToString()) || string.IsNullOrWhiteSpace(registerCampaignRequest.PricePerSquareMeter.ToString()) || string.IsNullOrWhiteSpace(registerCampaignRequest.FromIdBuilding.ToString()) || string.IsNullOrWhiteSpace(registerCampaignRequest.ToIdBuilding.ToString()) || string.IsNullOrWhiteSpace(registerCampaignRequest.StartDate.ToString()) || string.IsNullOrWhiteSpace(registerCampaignRequest.EndDate.ToString()))
-            {
-                return NotFound("Not enough data");
-            }
-
-            //check if buildings are on the same street
-            var street1 = _context.Buildings.Where(b => b.IdBuilding == registerCampaignRequest.FromIdBuilding).Select(b => b.Street);
-            var street2 = _context.Buildings.Where(b => b.IdBuilding == registerCampaignRequest.ToIdBuilding).Select(b => b.Street);
-
-            if(!street1.Equals(street1)) return StatusCode(400);
-
             return _service.RegisterCampaign(registerCampaignRequest);
         }
 

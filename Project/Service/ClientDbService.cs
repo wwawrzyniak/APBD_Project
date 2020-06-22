@@ -24,7 +24,7 @@ namespace AdvertApi.Service
         private IConfiguration _configuration { get; set; }
         public ClientDbService(IConfiguration configuration, AdvertisingDbContext context)
         {
-            this._configuration = configuration;
+            _configuration = configuration;
             _context = context;
         }
         public List<Client> returnAll() { return _context.Clients.ToList(); }
@@ -104,18 +104,18 @@ namespace AdvertApi.Service
             return new TokenCreationResponse { Token = token, RefreshToken = refreshToken };
         }
 
-        public IActionResult RegisterNewUser(RegisterRequest registerRequest)
+        public RegistrationResponse RegisterNewUser(RegisterRequest registerRequest)
         {
             try
             {
                 if(string.IsNullOrWhiteSpace(registerRequest.FirstName) || string.IsNullOrWhiteSpace(registerRequest.LastName) || string.IsNullOrWhiteSpace(registerRequest.Email) || string.IsNullOrWhiteSpace(registerRequest.Phone) || string.IsNullOrWhiteSpace(registerRequest.Login) || string.IsNullOrWhiteSpace(registerRequest.Password))
                 {
-                    return BadRequest("Not enough data");
+                    return null;
                 }
 
                 var isLoginUnique = _context.Clients.Where(c => c.Login == registerRequest.Login).ToList();
 
-                if(isLoginUnique.Count != 0) return BadRequest("Login already taken");
+                if(isLoginUnique.Count != 0) return null;
                 var securedPassword = secureMyPassword(registerRequest.Password);
                 Client client = new Client
                 {
@@ -139,17 +139,16 @@ namespace AdvertApi.Service
                 _context.Update(client);
                 _context.SaveChanges();
 
-                return StatusCode(201, new RegistrationResponse
+                return new RegistrationResponse
                 {
                     AccessToken = tokenToReturn,
                     RefreshToken = refreshToken
-                }
-                );
+                };
 
             }
             catch(Exception e)
             {
-                return BadRequest(e);
+                return null;
             }
         
         }

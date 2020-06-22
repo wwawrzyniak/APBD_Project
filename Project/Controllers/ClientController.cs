@@ -29,7 +29,9 @@ namespace AdvertApi.Controllers
         [HttpPost]
         public IActionResult Register(RegisterRequest request)
         {
-            return _service.RegisterNewUser(request);
+            var result = _service.RegisterNewUser(request);
+            if(result == null) return BadRequest("An error occured");
+            return StatusCode(201, result);
 
         }
 
