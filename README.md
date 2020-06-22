@@ -1,7 +1,7 @@
 # APBD_Project
 
 ## What is not implemented
-- Prepare a separate project with unit and integration tests for prepared endpoints.
+- Prepare integration tests for prepared endpoints.
 
  
 
