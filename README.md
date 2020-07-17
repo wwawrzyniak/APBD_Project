@@ -1,4 +1,4 @@
-# APBD_Project
+# APBD Final Project
 
 ## What is not implemented
 - Prepare integration tests for prepared endpoints.
